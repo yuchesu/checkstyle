@@ -221,6 +221,9 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * {@code line.same}
  * </li>
  * </ul>
+ * {@code line.break.after}
+ * </li>
+ * <li>
  *
  * @since 3.0
  */
