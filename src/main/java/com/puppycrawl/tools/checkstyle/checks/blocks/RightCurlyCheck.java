@@ -246,6 +246,12 @@ public class RightCurlyCheck extends AbstractCheck {
     public static final String MSG_KEY_LINE_SAME = "line.same";
 
     /**
+     * A key is pointing to the warning message text in "messages.properties"
+     * file.
+     */
+    public static final String MSG_KEY_LINE_BREAK_AFTER = "line.break.after";
+
+    /**
      * Specify the policy on placement of a right curly brace (<code>'}'</code>).
      */
     private RightCurlyOption option = RightCurlyOption.SAME;
@@ -330,6 +336,9 @@ public class RightCurlyCheck extends AbstractCheck {
         }
         else if (shouldBeAloneOnLine(option, details, getLine(details.rcurly.getLineNo() - 1))) {
             violation = MSG_KEY_LINE_ALONE;
+        }
+        else if (isRightcurlyFollowedBySemicolonHasLineBreakAfter(option, details)) {
+            violation = MSG_KEY_LINE_BREAK_AFTER;
         }
         return violation;
     }
@@ -497,6 +506,15 @@ public class RightCurlyCheck extends AbstractCheck {
             previousToken = rightCurly.getParent();
         }
         return !TokenUtil.areOnSameLine(rightCurly, previousToken);
+    }
+
+
+    private static boolean isRightcurlyFollowedBySemicolonHasLineBreakAfter(RightCurlyOption bracePolicy,
+                                                                            Details details) {
+        DetailAST tokenAfterNext = Details.getNextToken(details.nextToken);
+        return bracePolicy == RightCurlyOption.SAME
+                && isRightcurlyFollowedBySemicolon(details)
+                && TokenUtil.areOnSameLine(details.rcurly, tokenAfterNext);
     }
 
     /**
