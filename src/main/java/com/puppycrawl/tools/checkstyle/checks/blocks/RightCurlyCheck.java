@@ -511,10 +511,14 @@ public class RightCurlyCheck extends AbstractCheck {
 
     private static boolean isRightcurlyFollowedBySemicolonHasLineBreakAfter(RightCurlyOption bracePolicy,
                                                                             Details details) {
-        DetailAST tokenAfterNext = Details.getNextToken(details.nextToken);
-        return bracePolicy == RightCurlyOption.SAME
-                && isRightcurlyFollowedBySemicolon(details)
-                && TokenUtil.areOnSameLine(details.rcurly, tokenAfterNext);
+        DetailAST tokenAfterNextToken = Details.getNextToken(details.nextToken);
+
+        if (tokenAfterNextToken != null) {
+            return bracePolicy == RightCurlyOption.SAME
+                    && isRightcurlyFollowedBySemicolon(details)
+                    && TokenUtil.areOnSameLine(details.rcurly, tokenAfterNextToken);
+        }
+        return false;
     }
 
     /**
