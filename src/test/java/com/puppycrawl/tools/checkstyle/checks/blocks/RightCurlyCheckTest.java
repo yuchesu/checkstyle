@@ -79,6 +79,18 @@ public class RightCurlyCheckTest extends AbstractModuleTestSupport {
     }
 
     @Test
+    public void testSame2() throws Exception {
+        final String[] expected = {
+            "27:17: " + getCheckMessage(MSG_KEY_LINE_SAME, "}", 17),
+            "32:13: " + getCheckMessage(MSG_KEY_LINE_SAME, "}", 13),
+            "36:13: " + getCheckMessage(MSG_KEY_LINE_SAME, "}", 13),
+            "50:9: " + getCheckMessage(MSG_KEY_LINE_ALONE, "}", 9),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputRightCurlyTestSame2.java"), expected);
+    }
+
+    @Test
     public void testSameOmitOneLiners() throws Exception {
         final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
         verifyWithInlineConfigParser(
@@ -91,6 +103,8 @@ public class RightCurlyCheckTest extends AbstractModuleTestSupport {
         verifyWithInlineConfigParser(
                 getPath("InputRightCurlyTestSame.java"), expected);
     }
+
+
 
     @Test
     public void testAlone() throws Exception {
